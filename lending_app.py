@@ -17,41 +17,125 @@ rf_model = pickle.load(open("RF.pkl","rb"))
 
 
 
-departments = ['Sales','Technical','Support','IT','Product_mng','Marketing','RandD','Accounting','HR','Management']
-salary_level = ['Low', 'Medium','High']
-work_accidents = ['Yes','No']
-promotions= ['Yes','No']
+sub_grades = ['A2','A3', 'A4', 'A5', 'B1', 'B2', 'B3', 'B4', 'B5', 'C1', 'C2', 'C3', 'C4', 'C5', 'D1', 'D2', 'D3', 'D4' ,'D5', 'E1', 'E2', 'E3', 'E4', 'E5', 'F1', 'F2', 'F3', 'F4', 'F5', 'G1', 'G2', 'G3', 'G4', 'G5']
+home_owns = ['Own','Rent']
+purposes = ['Credit Card','Debt Consolidaton','Educational','Home Improvement','House','Medical','Major Purcase','Moving','Vacation','Wedding','Other']
 
 
-st.sidebar.header("Configure the Employee Features:")
-department = st.sidebar.selectbox("What is the department of the employee?", (departments))
-salary = st.sidebar.selectbox("What is the salary of the employee?",(salary_level))
-work_accident = st.sidebar.selectbox("Has the employee ever had a work accident?",(work_accidents))
-promotion = st.sidebar.selectbox("Has the employee been promoted in the last five years?",(promotions))
+st.sidebar.header("Configure the Borrower Features:")
+sub_grade = st.sidebar.selectbox("Grade of Borrower?",(sub_grades))
+home_own = st.sidebar.selectbox("Borrower Home Ownership?",(home_owns))
+purpose = st.sidebar.selectbox("Stated Purpose of Loan?",(purposes))
 
-satisfaction = st.sidebar.slider("What is the percentage of the employee's satisfaction level?",0,100,50,1)
-evaluation = st.sidebar.slider("What is the percentage of the employer's last evaluation level?",0,100,50, step=1)
-project_count= st.sidebar.slider("How many projects has the employee worked on?",2,7,3, step=1)
-montly_hours= st.sidebar.slider("What is the employee's average monthly working hours?",96,310,200, step=1)
-spend_time= st.sidebar.slider("How many years has the employee been with the company?",2,10,3, step=1)
+loan_amnt = st.sidebar.slider("What is loan amount?",1000,50000,10000,step=1)
+interest_rate = st.sidebar.slider("Interest Rate?",0,25,12, step=0.1)
+annual_income= st.sidebar.slider("Annual Income?",10000,250000,50000, step=10000)
+issue_date= st.sidebar.slider("Loan Issue Date?",2012,2020,2015, step=1)
+term = st.sidebar.slider("What is term 36/60 months?",36,60,36)
+last_pay = st.sidebar.slider("What is Last Payment Amount?",100,15000,7000,step=100)
 
-department_encode={  'Sales':7, 
-                     'Technical':9, 
-                     'Support':8, 
-                     'IT':0, 
-                     'Product_mng':6, 
-                     'Marketing':5,
-                     'RandD':1, 
-                     'Accounting':2, 
-                     'HR':3, 
-                     'Management':4}
+#subgrade_encode={  'A2':0,'A3':1, 'A4':2, 'A5':3, 'B1':4, 'B2':5, 'B3':6, 'B4':7, 'B5':8, 'C1':9, 'C2':10, 'C3':11, 'C4':12, 'C5':13, 'D1':14, 'D2':15, 'D3':16, 'D4':17,'D5':18, 'E1':19, 'E2':20, 'E3':21, 'E4':22, 'E5':23, 'F1':24, 'F2':25, 'F3':26, 'F4':27, 'F5':28, 'G1':29, 'G2':30, 'G3':31, 'G4':32, 'G5':33}
 
-salary_encode = {'Low':0,
-                 'Medium':1,
-                 'High':2}
+#home_encode = {'Own':0,
+#                 'Rent':1}
 
 
-yes_no_encode = {'Yes':1, 'No':0}
+#purpose_encode = {'Credit Card':0,'Debt Consolidaton':1,'Educational':2,'Home Improvement':3,'House':4,'Medical':5,'Major Purcase':6,'Moving':7,'Vacation':8,'Wedding':9,'Other':10}
+
+my_dict = {
+    'loan_amnt':loan_amnt,
+ 'term':term,
+ 'int_rate':interest_rate,
+ 'annual_inc':annual_income,
+ 'issue_d':issue_date,
+ 'dti':5,
+ 'inq_last_6mths':0,
+ 'open_acc':6,
+ 'revol_bal':5000,
+ 'revol_util':20,
+ 'last_pymnt_amnt':last_pay,
+ 'mort_acc':2,
+ 'pub_rec_bankruptcies'0,
+ 'earliest_cr_year':2000,
+ 'fico_range':600,
+    'grade':'B',
+ 'sub_grade'sub_grade,
+    'home_ownership':home_own,
+    'verification_status':'Verified',
+    'purpose':purpose,
+    'initial_list_status':'w',
+    'application_type':'Joint App'   
+    
+}
+
+columns =['loan_amnt',
+ 'term',
+ 'int_rate',
+ 'annual_inc',
+ 'issue_d',
+ 'dti',
+ 'inq_last_6mths',
+ 'open_acc',
+ 'revol_bal',
+ 'revol_util',
+ 'last_pymnt_amnt',
+ 'mort_acc',
+ 'pub_rec_bankruptcies',
+ 'earliest_cr_year',
+ 'fico_range','grade_B', 'grade_C', 'grade_D', 'grade_E', 'grade_F', 'grade_G',
+ 'sub_grade_A2',
+ 'sub_grade_A3',
+ 'sub_grade_A4',
+ 'sub_grade_A5',
+ 'sub_grade_B1',
+ 'sub_grade_B2',
+ 'sub_grade_B3',
+ 'sub_grade_B4',
+ 'sub_grade_B5',
+ 'sub_grade_C1',
+ 'sub_grade_C2',
+ 'sub_grade_C3',
+ 'sub_grade_C4',
+ 'sub_grade_C5',
+ 'sub_grade_D1',
+ 'sub_grade_D2',
+ 'sub_grade_D3',
+ 'sub_grade_D4',
+ 'sub_grade_D5',
+ 'sub_grade_E1',
+ 'sub_grade_E2',
+ 'sub_grade_E3',
+ 'sub_grade_E4',
+ 'sub_grade_E5',
+ 'sub_grade_F1',
+ 'sub_grade_F2',
+ 'sub_grade_F3',
+ 'sub_grade_F4',
+ 'sub_grade_F5',
+ 'sub_grade_G1',
+ 'sub_grade_G2',
+ 'sub_grade_G3',
+ 'sub_grade_G4',
+ 'sub_grade_G5',
+ 'home_ownership_OWN',
+ 'home_ownership_RENT',
+ 'verification_status_Source Verified',
+ 'verification_status_Verified',
+ 'purpose_credit_card',
+ 'purpose_debt_consolidation',
+ 'purpose_educational',
+ 'purpose_home_improvement',
+ 'purpose_house',
+ 'purpose_major_purchase',
+ 'purpose_medical',
+ 'purpose_moving',
+ 'purpose_other',
+ 'purpose_renewable_energy',
+ 'purpose_small_business',
+ 'purpose_vacation',
+ 'purpose_wedding',
+ 'initial_list_status_w',
+ 'application_type_Joint App']
 
 my_dict = {'satisfaction_level':satisfaction/100, 
            'last_evaluation':evaluation/100, 
